@@ -12,7 +12,6 @@ gulp.task('default', function() {
                  .pipe(rename({suffix: '.min'}))
                  .pipe(uglify())
                  .pipe(gulp.dest('static'))
-                 .pipe(notify({ message: 'Scripts task complete' }));
 
   gulp.src('src/*.less')
                  .pipe(less())
@@ -20,5 +19,4 @@ gulp.task('default', function() {
                  .pipe(minify())
                  .pipe(rename({suffix: '.min'}))
                  .pipe(gulp.dest('static'))
-                 .pipe(notify({ message: 'Less task complete.' }));
 });
