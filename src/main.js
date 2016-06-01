@@ -1,115 +1,69 @@
 function refresh() {
-  var area = areaSlider.value();
-  var rentPerSquare = rentPerSquareSlider.value();
-  var propertyCostsPerSquare = propertyCostsPerSquareSlider.value();
-  propertyCostsPerSquare = Math.round(propertyCostsPerSquare * 10) / 10;
-  var rentFirstYear = area * rentPerSquare * 12;
-  var opMonthFirstYear = opMonthFirstYearSlider.value();
-  var classrooms = classroomsSlider.value();
-  var furnitureCostsPerSquare = furnitureCostsPerSquareSlider.value();
-  var hrFirstYear = hrFirstYearSlider.value();
-  var salary = salarySlider.value();
-
-  d3.select('#area .text').text(area);
-  d3.select('#rent-per-square .text').text(rentPerSquare);
-  d3.select('#rent-first-year .text').text(rentFirstYear);
-  d3.select('#property-costs-per-square .text').text(propertyCostsPerSquare);
-  d3.select('#op-month-first-year .text').text(opMonthFirstYear);
-  d3.select('#classrooms .text').text(classrooms);
-  d3.select('#furniture-costs-per-square .text').text(furnitureCostsPerSquare);
-  d3.select('#hr-first-year .text').text(hrFirstYear);
-  d3.select('#salary .text').text(salary);
+  for (var key in sliders) {
+    if (sliders.hasOwnProperty(key)) {
+      var v = sliders[key].value();
+      v = Math.round(v * 100) / 100;
+      d3.select('#' + key + ' .text').text(v);
+    }
+  }
 }
 
-var areaSlider = d3.slider()
-  .axis(d3.svg.axis().ticks(10))
-  .min(200)
-  .max(2000)
-  .value(300)
-  .step(50)
-  .on("slide", function(evt, value) {
-    refresh();
-  });
-d3.select('#area .graph').call(areaSlider);
+var sliders = {};
 
-var rentPerSquareSlider = d3.slider()
-  .axis(d3.svg.axis().ticks(7))
-  .min(0)
-  .max(300)
-  .value(40)
-  .step(1)
-  .on('slide', function(evt, value) {
-    refresh();
-  });
-d3.select('#rent-per-square .graph').call(rentPerSquareSlider);
+function gen_slider(name, ticks, min, max, value, step) {
+  sliders[name] = d3.slider().axis(d3.svg.axis().ticks(ticks))
+    .min(min).max(max).value(value).step(step)
+    .on("slide", function(evt, value) {
+      refresh();
+    });
+  d3.select('#' + name + ' .graph').call(sliders[name]);
+}
 
-var propertyCostsPerSquareSlider = d3.slider()
-  .axis(d3.svg.axis().ticks(11))
-  .min(0)
-  .max(20)
-  .value(2)
-  .step(0.1)
-  .on('slide', function(evt, value) {
-    refresh();
-  });
-d3.select('#property-costs-per-square .graph').call(propertyCostsPerSquareSlider);
+gen_slider('area', 10, 200, 2000, 300, 50);
+gen_slider('rent-per-square', 7, 0, 300, 40, 1);
+gen_slider('rent-months', 10, 0, 120, 36, 6);
+gen_slider('property-costs-per-square', 11, 0, 20, 2, 1);
+gen_slider('op-month-first-year', 13, 0, 12, 6, 1);
+gen_slider('classrooms', 13, 0, 100, 18, 1);
+gen_slider('furniture-costs-per-square', 11, 0, 2000, 700, 10);
+gen_slider('hr-first-year', 11, 0, 100, 10, 1);
+gen_slider('salary', 11, 1000, 5000, 2000, 100);
+gen_slider('desks', 11, 0, 200, 30, 1);
+gen_slider('desk-price', 10, 100, 1000, 500, 10);
+gen_slider('device-price', 10, 500, 5000, 3000, 100);
+gen_slider('p2p-students', 10, 0, 500, 80, 10);
+gen_slider('p2p-avg-charge', 9, 0, 16000, 8000, 1000);
+gen_slider('p2p-avg-complete-rate', 10, 0, 100, 80, 5);
 
-var opMonthFirstYearSlider = d3.slider()
-  .axis(d3.svg.axis().ticks(13))
-  .min(0)
-  .max(12)
-  .value(6)
-  .step(1)
-  .on('slide', function(evt, value) {
-    refresh();
-  });
-d3.select('#op-month-first-year .graph').call(opMonthFirstYearSlider);
+gen_slider('sm-students', 10, 0, 500, 60, 10);
+gen_slider('sm-avg-charge', 5, 0, 4000, 2000, 100);
+gen_slider('sm-avg-complete-rate', 10, 0, 100, 95, 5);
 
-var classroomsSlider = d3.slider()
-  .axis(d3.svg.axis().ticks(13))
-  .min(0)
-  .max(100)
-  .value(18)
-  .step(1)
-  .on('slide', function(evt, value) {
-    refresh();
-  });
-d3.select('#classrooms .graph').call(classroomsSlider);
+gen_slider('bg-students', 10, 0, 500, 100, 10);
+gen_slider('bg-avg-charge', 9, 0, 1600, 800, 100);
+gen_slider('bg-avg-complete-rate', 10, 0, 100, 95, 5);
 
-var furnitureCostsPerSquareSlider = d3.slider()
-  .axis(d3.svg.axis().ticks(11))
-  .min(0)
-  .max(2000)
-  .value(700)
-  .step(10)
-  .on('slide', function(evt, value) {
-    refresh();
-  });
-d3.select('#furniture-costs-per-square .graph')
-  .call(furnitureCostsPerSquareSlider);
+gen_slider('sales-commission', 10, 0, 50, 5, 1);
+gen_slider('course-material-cost', 10, 0, 100, 20, 5);
 
-var hrFirstYearSlider = d3.slider()
-  .axis(d3.svg.axis().ticks(11))
-  .min(0)
-  .max(100)
-  .value(10)
-  .step(1)
-  .on('slide', function(evt, value) {
-    refresh();
-  });
-d3.select('#hr-first-year .graph')
-  .call(hrFirstYearSlider);
+gen_slider('p2p-income-contrib', 10, 0, 100, 40, 1);
+gen_slider('class-income-contrib', 10, 0, 100, 30, 1);
 
-var salarySlider = d3.slider()
-  .axis(d3.svg.axis().ticks(11))
-  .min(1000)
-  .max(5000)
-  .value(2000)
-  .step(100)
-  .on('slide', function(evt, value) {
-    refresh();
-  });
-d3.select('#salary .graph')
-  .call(salarySlider);
+gen_slider('vat', 3, 0, 6, 3, 3);
+gen_slider('local-tax', 10, 0, 30, 12, 1);
+
+gen_slider('credit-card-fees', 10, 0, 3, 0.78, 0.01);
+gen_slider('credit-card-contrib', 10, 0, 100, 70, 1);
+gen_slider('support-costs', 10, 0, 50, 5, 1);
+
+gen_slider('social-security-costs', 10, 0, 30, 8, 1);
+gen_slider('cpf-costs', 10, 0, 20, 4, 1);
+
+gen_slider('office-material-costs', 10, 0, 200, 50, 10);
+
+gen_slider('percent-for-teaching', 10, 0, 100, 80, 1);
+gen_slider('percent-for-office', 10, 0, 100, 20, 1);
+
+gen_slider('market-cost', 10, 0, 30, 7, 1);
 
 refresh();
