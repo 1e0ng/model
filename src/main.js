@@ -8,6 +8,7 @@ function refresh() {
   var classrooms = classroomsSlider.value();
   var furnitureCostsPerSquare = furnitureCostsPerSquareSlider.value();
   var hrFirstYear = hrFirstYearSlider.value();
+  var salary = salarySlider.value();
 
   d3.select('#area .text').text(area);
   d3.select('#rent-per-square .text').text(rentPerSquare);
@@ -17,7 +18,9 @@ function refresh() {
   d3.select('#classrooms .text').text(classrooms);
   d3.select('#furniture-costs-per-square .text').text(furnitureCostsPerSquare);
   d3.select('#hr-first-year .text').text(hrFirstYear);
+  d3.select('#salary .text').text(salary);
 }
+
 var areaSlider = d3.slider()
   .axis(d3.svg.axis().ticks(10))
   .min(200)
@@ -97,5 +100,16 @@ var hrFirstYearSlider = d3.slider()
 d3.select('#hr-first-year .graph')
   .call(hrFirstYearSlider);
 
+var salarySlider = d3.slider()
+  .axis(d3.svg.axis().ticks(11))
+  .min(1000)
+  .max(5000)
+  .value(2000)
+  .step(100)
+  .on('slide', function(evt, value) {
+    refresh();
+  });
+d3.select('#salary .graph')
+  .call(salarySlider);
 
 refresh();
