@@ -7,6 +7,7 @@ var gulp = require('gulp'),
     less = require('gulp-less'),
     minify = require('gulp-minify-css'),
     livereload = require('gulp-livereload'),
+    rsync  = require('gulp-rsync'),
     del = require('del');
 
 gulp.task('styles', function() {
@@ -44,4 +45,24 @@ gulp.task('watch', function() {
   livereload.listen();
   // Watch any files in dist/, reload on change
   gulp.watch(['static/**']).on('change', livereload.changed);
+});
+
+gulp.task('deploy', function() {
+  rsyncPaths = ['static', 'index.html'];
+  rsyncConf = {
+    progress: true,
+    incremental: true,
+    relative: true,
+    emptyDirectories: true,
+    recursive: true,
+    clean: true,
+    exclude: [],
+  };
+
+  rsyncConf.hostname = 'web'; // hostname
+  rsyncConf.username = 'ec2-user'; // ssh username
+  rsyncConf.destination = '~/model'; // path where uploaded files go
+
+  return gulp.src(rsyncPaths)
+    .pipe(rsync(rsyncConf));
 });

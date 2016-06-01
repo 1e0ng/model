@@ -11,20 +11,20 @@
     <div class="wrapper">
       <div class="row">
         <div class="col-sm-8">
-          <div class="item row">
+          <div class="item row" id="area">
             <div class="col-sm-4">
-              <div>建筑面积: <span id="area-text"></span>平米</div>
+              <div>建筑面积: <span class="text"></span>平米</div>
             </div>
             <div class="col-sm-8">
-              <div id="area"></div>
+              <div class="graph"></div>
             </div>
           </div>
-          <div class="item row">
+          <div class="item row" id="rent-per-square">
             <div class="col-sm-4">
-              <div>租金单价（含税）: <span id="rent-per-square-text"></span> 元／平米</div>
+              <div>租金单价（含税）: <span class="text"></span> 元／平米</div>
             </div>
             <div class="col-sm-8">
-              <div id="rent-per-square"></div>
+              <div class="graph"></div>
             </div>
           </div>
           <!--
@@ -33,20 +33,48 @@
           </div>
           -->
 
-          <div class="item row">
+          <div class="item row" id="property-costs-per-square">
             <div class="col-sm-4">
-              <div>物业费: <span id="property-costs-per-square-text"></span> 元／平米</div>
+              <div>物业费: <span class="text"></span> 元／平米</div>
             </div>
             <div class="col-sm-8">
-              <div id="property-costs-per-square"></div>
+              <div class="graph"></div>
             </div>
           </div>
-          <div class="item row">
+
+          <div class="item row" id="op-month-first-year">
             <div class="col-sm-4">
-              <div>开业当年运营期间: <span id="op-month-first-year-text"></span> 个月</div>
+              <div>开业当年运营期间: <span class="text"></span> 个月</div>
             </div>
             <div class="col-sm-8">
-              <div id="op-month-first-year"></div>
+              <div class="graph"></div>
+            </div>
+          </div>
+
+          <div class="item row" id="classrooms">
+            <div class="col-sm-4">
+              <div>计划教室数量: <span class="text"></span> 间</div>
+            </div>
+            <div class="col-sm-8">
+              <div class="graph"></div>
+            </div>
+          </div>
+
+          <div class="item row" id="furniture-costs-per-square">
+            <div class="col-sm-4">
+              <div>装修单价: <span class="text"></span> 元／平米</div>
+            </div>
+            <div class="col-sm-8">
+              <div class="graph"></div>
+            </div>
+          </div>
+
+          <div class="item row" id="hr-first-year">
+            <div class="col-sm-4">
+              <div>计划增加员工数量: <span class="text"></span> 人</div>
+            </div>
+            <div class="col-sm-8">
+              <div class="graph"></div>
             </div>
           </div>
 
