@@ -4,10 +4,12 @@ function refresh() {
   var propertyCostsPerSquare = propertyCostsPerSquareSlider.value();
   propertyCostsPerSquare = Math.round(propertyCostsPerSquare * 10) / 10;
   var rentFirstYear = area * rentPerSquare * 12;
+  var opMonthFirstYear = opMonthFirstYearSlider.value();
   d3.select('#area-text').text(area);
   d3.select('#rent-per-square-text').text(rentPerSquare);
   d3.select('#rent-first-year-text').text(rentFirstYear);
   d3.select('#property-costs-per-square-text').text(propertyCostsPerSquare);
+  d3.select('#op-month-first-year-text').text(opMonthFirstYear);
 }
 var areaSlider = d3.slider()
   .axis(d3.svg.axis().ticks(10))
@@ -41,6 +43,18 @@ var propertyCostsPerSquareSlider = d3.slider()
     refresh();
   });
 d3.select('#property-costs-per-square').call(propertyCostsPerSquareSlider);
+
+var opMonthFirstYearSlider = d3.slider()
+  .axis(d3.svg.axis().ticks(13))
+  .min(0)
+  .max(12)
+  .value(6)
+  .step(1)
+  .on('slide', function(evt, value) {
+    refresh();
+  });
+d3.select('#op-month-first-year').call(opMonthFirstYearSlider);
+
 
 refresh();
 
