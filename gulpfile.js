@@ -37,13 +37,9 @@ gulp.task('default', function() {
 });
 
 gulp.task('watch', function() {
-  // Watch .scss files
   gulp.watch('src/*.less', ['styles']);
-  // Watch .js files
   gulp.watch('src/*.js', ['scripts']);
-  // Create LiveReload server
   livereload.listen();
-  // Watch any files in dist/, reload on change
   gulp.watch(['static/**']).on('change', livereload.changed);
 });
 
