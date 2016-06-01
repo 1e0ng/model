@@ -14,6 +14,12 @@ function gen_slider(name, ticks, min, max, value, step) {
   sliders[name] = d3.slider().axis(d3.svg.axis().ticks(ticks))
     .min(min).max(max).value(value).step(step)
     .on("slide", function(evt, value) {
+      if (name == 'percent-for-teaching') {
+        sliders['percent-for-office'].value(100 - value);
+      }
+      if (name == 'percent-for-office') {
+        sliders['percent-for-teaching'].value(100 - value);
+      }
       refresh();
     });
   d3.select('#' + name + ' .graph').call(sliders[name]);
