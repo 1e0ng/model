@@ -3,37 +3,32 @@ function r() {
   for (var i=0; i<metas.length; i++) {
     if (metas[i].getAttribute(/* @mangle */"name"/* @/mangle */) === /* @mangle */"author"/* @/mangle */) {
       if (metas[i].getAttribute(/* @mangle */"content"/* @/mangle */).indexOf(/* @mangle */'1e0n'/* @/mangle */) === 0) {
-        for (var key in sliders) {
-          if (sliders.hasOwnProperty(key)) {
-            var v = sliders[key].value();
+        for (var key in s) {
+          if (s.hasOwnProperty(key)) {
+            var v = s[key].value();
             v = Math.round(v * 100) / 100;
             d3.select(/* @mangle */'.'/* @/mangle */ + key + /* @mangle */' .text'/* @/mangle */).text(v);
           }
 
         }
-        var v = sliders['start-fund-in-10k'].value() * 10000;
-        o('start-fund', v);
+        t();
       }
       break;
     }
   }
 }
 
-function o(k, v) {
-  d3.selectAll(/* @mangle */'.'/* @/mangle */ + k + /* @mangle */'.text'/* @/mangle */).text(v);
-}
-
-var sliders = {};
+var s = {};
 
 function g(name, ticks, min, max, value, step) {
-  sliders[name] = d3.slider().axis(d3.svg.axis().ticks(ticks))
+  s[name] = d3.slider().axis(d3.svg.axis().ticks(ticks))
     .min(min).max(max).value(value).step(step)
     .on("slide", function(evt, value) {
       if (name == /* @mangle */'percent-for-teaching'/* @/mangle */) {
-        sliders[/* @mangle */'percent-for-office'/* @/mangle */].value(100 - value);
+        s[/* @mangle */'percent-for-office'/* @/mangle */].value(100 - value);
       }
       if (name == /* @mangle */'percent-for-office'/* @/mangle */) {
-        sliders[/* @mangle */'percent-for-teaching'/* @/mangle */].value(100 - value);
+        s[/* @mangle */'percent-for-teaching'/* @/mangle */].value(100 - value);
       }
       var metas = document.getElementsByTagName(/* @mangle */'meta'/* @/mangle */);
       var meta = '';
@@ -45,9 +40,36 @@ function g(name, ticks, min, max, value, step) {
         }
       }
     });
-  d3.select(/* @mangle */'.'/* @/mangle */ + name + /* @mangle */' .graph'/* @/mangle */).call(sliders[name]);
+  d3.select(/* @mangle */'.'/* @/mangle */ + name + /* @mangle */' .graph'/* @/mangle */).call(s[name]);
 }
+function o(k, v) {
+  d3.selectAll(/* @mangle */'.'/* @/mangle */ + k + /* @mangle */'.text'/* @/mangle */).text(v);
+}
+function ss() {
+  var i;
+  var sum = 0;
+  for (i = 0; i < arguments.length; ++i) {
+    //console.log(arguments[i]);
+    sum += parseInt(d3.select('.' + arguments[i] + '.text').text());
+  }
+  return sum;
+}
+function t() {
+  o('start-fund', s['start-fund-in-10k'].value() * 10000);
+  o('rent-deposite', s['rent-deposite-in-k'].value() * 1000);
+  o('rent-first-year', s['area'].value() * s['rent-per-square'].value() * s['op-month-first-year'].value());
+  o('property-costs-first-year', s['area'].value() * s['op-month-first-year'].value() * s['property-costs-per-square'].value());
+  o('furniture-costs', s['area'].value() * s['furniture-costs-per-square'].value());
+  o('device-costs', s['device-price'].value() * s['classrooms'].value());
+  o('desk-costs', s['desks'].value() * s['desk-price'].value());
+  var v = s['salary'].value() * s['hr-first-year'].value() * s['op-month-first-year'].value();
+  o('salary-costs', v);
+  o('social-security-costs', v * s['social-security'].value() / 100);
+  o('cpf-costs', v * s['cpf'].value() / 100);
 
+  o('initial-fee', s['initial-fee-in-10k'].value() * 10000);
+  o('first-year-costs', ss('rent-deposite', 'rent-first-year', 'property-costs-first-year', 'furniture-costs', 'device-costs', 'desk-costs', 'salary-costs', 'social-security-costs', 'cpf-costs'));
+}
 g(/* @mangle */'area'/* @/mangle */, 10, 200, 2000, 300, 50);
 g(/* @mangle */'rent-per-square'/* @/mangle */, 7, 0, 300, 40, 1);
 g(/* @mangle */'rent-months'/* @/mangle */, 10, 0, 120, 36, 6);
@@ -85,16 +107,19 @@ g(/* @mangle */'credit-card-fees'/* @/mangle */, 10, 0, 3, 0.78, 0.01);
 g(/* @mangle */'credit-card-contrib'/* @/mangle */, 10, 0, 100, 70, 1);
 g(/* @mangle */'support-costs'/* @/mangle */, 10, 0, 50, 5, 1);
 
-g(/* @mangle */'social-security-costs'/* @/mangle */, 10, 0, 30, 8, 1);
-g(/* @mangle */'cpf-costs'/* @/mangle */, 10, 0, 20, 4, 1);
+g(/* @mangle */'social-security'/* @/mangle */, 10, 0, 30, 8, 1);
+g(/* @mangle */'cpf'/* @/mangle */, 10, 0, 20, 4, 1);
 
 g(/* @mangle */'office-material-costs'/* @/mangle */, 10, 0, 200, 50, 10);
 
 g(/* @mangle */'percent-for-teaching'/* @/mangle */, 10, 0, 100, 80, 1);
 g(/* @mangle */'percent-for-office'/* @/mangle */, 10, 0, 100, 20, 1);
 
-g(/* @mangle */'market-cost'/* @/mangle */, 10, 0, 30, 7, 1);
+g(/* @mangle */'market-cost-percent'/* @/mangle */, 10, 0, 30, 7, 1);
 
 g(/* @mangle */'start-fund-in-10k'/* @/mangle */, 10, 0, 100, 50, 1);
+
+g(/* @mangle */'rent-deposite-in-k'/* @/mangle */, 10, 0, 50, 0, 1);
+g(/* @mangle */'initial-fee-in-10k'/* @/mangle */, 10, 0, 100, 12, 1);
 
 r();
