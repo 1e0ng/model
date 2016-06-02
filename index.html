@@ -53,7 +53,7 @@
             </div>
           </div>
 
-          <div class="item row property-costs-per-square">
+          <div class="item row property-cost-per-square">
             <div class="col-sm-4">
               <div>物业费: <span class="text"></span>元/平米</div>
             </div>
@@ -80,7 +80,7 @@
             </div>
           </div>
 
-          <div class="item row furniture-costs-per-square">
+          <div class="item row furniture-cost-per-square">
             <div class="col-sm-4">
               <div>装修单价: <span class="text"></span>元/平米</div>
             </div>
@@ -233,7 +233,7 @@
             </div>
           </div>
 
-          <div class="item row p2p-income-contrib">
+          <div class="item row pay-teacher-percent-for-p2p">
             <div class="col-sm-4">
               <div>一对一课时费占收入比例: <span class="text"></span>%</div>
             </div>
@@ -242,7 +242,7 @@
             </div>
           </div>
 
-          <div class="item row class-income-contrib">
+          <div class="item row pay-teacher-percent-for-class">
             <div class="col-sm-4">
               <div>班课课时费占收入比例: <span class="text"></span>%</div>
             </div>
@@ -269,7 +269,7 @@
             </div>
           </div>
 
-          <div class="item row credit-card-fees">
+          <div class="item row credit-card-fee-percent">
             <div class="col-sm-4">
               <div>收款刷卡费率: <span class="text"></span>%</div>
             </div>
@@ -287,7 +287,7 @@
             </div>
           </div>
 
-          <div class="item row support-costs">
+          <div class="item row support-commission">
             <div class="col-sm-4">
               <div>支持服务费比例（分账）: <span class="text"></span>%</div>
             </div>
@@ -314,7 +314,7 @@
             </div>
           </div>
 
-          <div class="item row office-material-costs">
+          <div class="item row office-material-cost-per-person">
             <div class="col-sm-4">
               <div>办公用品支出: <span class="text"></span>元/人月</div>
             </div>
@@ -412,32 +412,29 @@
                 <table class="table table-bordered table-hover table-striped">
                   <tr><td>场地押金</td><td class="text rent-deposite"></td><td></td></tr>
                   <tr><td>场地租金支出</td><td class="text rent-first-year"></td><td></td></tr>
-                  <tr><td>物业费支出</td><td class="text property-costs-first-year"></td><td></td></tr>
-                  <tr><td>装修费支出</td><td class="text furniture-costs"></td><td>按租赁年限摊销</td></tr>
-                  <tr><td>教学设备支出</td><td class="text device-costs"></td><td>按5年折旧</td></tr>
-                  <tr><td>课桌椅支出</td><td class="text desk-costs"></td><td>按5年折旧</td></tr>
-                  <tr><td>工资薪酬支出</td><td class="text salary-costs"></td><td></td></tr>
-                  <tr><td>员工保险费支出</td><td class="text social-security-costs"></td><td></td></tr>
-                  <tr><td>员工公积金支出</td><td class="text cpf-costs"></td><td></td></tr>
+                  <tr><td>物业费支出</td><td class="text property-cost-first-year"></td><td></td></tr>
+                  <tr><td>装修费支出</td><td class="text furniture-cost"></td><td>按租赁年限摊销</td></tr>
+                  <tr><td>教学设备支出</td><td class="text device-cost"></td><td>按5年折旧</td></tr>
+                  <tr><td>课桌椅支出</td><td class="text desk-cost"></td><td>按5年折旧</td></tr>
+                  <tr><td>工资薪酬支出</td><td class="text salary-cost"></td><td></td></tr>
+                  <tr><td>员工保险费支出</td><td class="text social-security-cost"></td><td></td></tr>
+                  <tr><td>员工公积金支出</td><td class="text cpf-cost"></td><td></td></tr>
                   <tr><td>加盟费</td><td class="text initial-fee"></td><td>按加盟年限摊销</td></tr>
-                  <tr><td>小计</td><td class="text first-year-costs"></td><td></td></tr>
+                  <tr><td>小计</td><td class="text constant-cost-first-year"></td><td></td></tr>
                 </table>
               </td>
             </tr>
             <tr>
               <td>固定收入现金盈余</td>
-              <td colspan="4" class="text first-year-reminder"></td>
+              <td colspan="4" class="text first-year-constant-reminder"></td>
             </tr>
             <tr>
               <td>变动收入</td>
               <td colspan="2" class="nop">
                 <table class="table table-bordered table-hover table-striped">
-                  <tr>
-                    <td>一对一现金收入</td>
-                    <td class="text">5000</td>
-                  </tr>
-                  <tr><td>小班课现金收入</td><td class="text">123400</td></tr>
-                  <tr><td>大班课现金收入</td><td class="text">1234100</td></tr>
+                  <tr><td>一对一现金收入</td><td class="text p2p-income-first-year"></td></tr>
+                  <tr><td>小班课现金收入</td><td class="text sm-income-first-year"></td></tr>
+                  <tr><td>大班课现金收入</td><td class="text bg-income-first-year"></td></tr>
                   <tr><td>&nbsp;</td><td></td></tr>
                   <tr><td>&nbsp;</td><td></td></tr>
                   <tr><td>&nbsp;</td><td></td></tr>
@@ -448,37 +445,36 @@
                   <tr><td>&nbsp;</td><td></td></tr>
                   <tr>
                     <td>小计</td>
-                    <td class="text">5000</td>
+                    <td class="text total-income-first-year"></td>
                   </tr>
                 </table>
               </td>
               <td>变动支出</td>
               <td colspan="3" class="nop">
                 <table class="table table-bordered table-hover table-striped">
-                  <tr><td>支持服务费支出</td><td class="text">5000</td></tr>
-                  <tr><td>增值税支出</td><td class="text">5000</td></tr>
-                  <tr><td>地方税支出</td><td class="text">5000</td></tr>
-                  <tr><td>销售提成</td><td class="text">5000</td></tr>
-                  <tr><td>一对一课时费支出</td><td class="text">5000</td></tr>
-                  <tr><td>班课课时费支出</td><td class="text">5000</td></tr>
-                  <tr><td>市场宣传费支出</td><td class="text">5000</td></tr>
-                  <tr><td>培训费支出</td><td class="text">5000</td></tr>
-                  <tr><td>水电费支出</td><td class="text">5000</td></tr>
-                  <tr><td>办公用品支出</td><td class="text">5000</td></tr>
-                  <tr><td>财务费用</td><td class="text">5000</td></tr>
-                  <tr><td>小计</td><td class="text">5000</td></tr>
+                  <tr><td>支持服务费支出</td><td class="text support-cost-first-year"></td></tr>
+                  <tr><td>增值税支出</td><td class="text vat-first-year"></td></tr>
+                  <tr><td>地方税支出</td><td class="text local-tax-first-year"></td></tr>
+                  <tr><td>销售提成</td><td class="text sales-commission-first-year"></td></tr>
+                  <tr><td>一对一课时费支出</td><td class="text pay-p2p-teacher-first-year"></td></tr>
+                  <tr><td>班课课时费支出</td><td class="text pay-class-teacher-first-year"></td></tr>
+                  <tr><td>市场宣传费支出</td><td class="text market-cost-first-year"></td></tr>
+                  <tr><td>培训费支出</td><td class="text tutoring-cost-first-year"></td></tr>
+                  <tr><td>水电费支出</td><td class="text water-elec-cost-first-year"></td></tr>
+                  <tr><td>办公用品支出</td><td class="text office-material-cost-first-year"></td></tr>
+                  <tr><td>财务费用</td><td class="text finance-cost-first-year"></td></tr>
+                  <tr><td>小计</td><td class="text var-cost-first-year"></td></tr>
                 </table>
               </td>
             </tr>
             <tr>
               <td>变动收入现金盈余</td>
-              <td colspan="4" class="text">11000</td>
+              <td colspan="4" class="text first-year-var-reminder"></td>
             </tr>
             <tr>
               <td>学习中心建设首年资金盈余</td>
-              <td colspan="4" class="text">11000</td>
+              <td colspan="4" class="text first-year-reminder"></td>
             </tr>
-
 
           </table>
           <h4>学习中心建设收益预测</h4>
