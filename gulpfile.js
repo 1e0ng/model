@@ -46,7 +46,7 @@ gulp.task('watch', function() {
 });
 
 gulp.task('deploy', function() {
-  rsyncPaths = ['static', 'index.html'];
+  rsyncPaths = ['static', 'index.html', '*.png', 'manifest.json'];
   rsyncConf = {
     progress: true,
     incremental: true,
