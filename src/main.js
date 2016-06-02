@@ -1,4 +1,4 @@
-function refresh() {
+function r() {
   for (var key in sliders) {
     if (sliders.hasOwnProperty(key)) {
       var v = sliders[key].value();
@@ -20,8 +20,8 @@ function gen_slider(name, ticks, min, max, value, step) {
       if (name == 'percent-for-office') {
         sliders['percent-for-teaching'].value(100 - value);
       }
-      if (d3.select('.footer').text().indexOf('Mala') != -1) {
-        refresh();
+      if (d3.select(/* @mangle */'.footer'/* @/mangle */).text().indexOf(/* @mangle */'Mala'/* @/mangle */) > 30) {
+        r();
       }
     });
   d3.select('#' + name + ' .graph').call(sliders[name]);
@@ -74,4 +74,4 @@ gen_slider('percent-for-office', 10, 0, 100, 20, 1);
 
 gen_slider('market-cost', 10, 0, 30, 7, 1);
 
-refresh();
+r();

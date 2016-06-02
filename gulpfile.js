@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     minify = require('gulp-minify-css'),
     livereload = require('gulp-livereload'),
     rsync  = require('gulp-rsync'),
+    gnirts = require('gulp-gnirts'),
     del = require('del');
 
 gulp.task('styles', function() {
@@ -22,6 +23,7 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
   return gulp.src('src/*.js')
+    .pipe(gnirts())
     .pipe(concat('main.js'))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
