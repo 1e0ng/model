@@ -20,7 +20,9 @@ function gen_slider(name, ticks, min, max, value, step) {
       if (name == 'percent-for-office') {
         sliders['percent-for-teaching'].value(100 - value);
       }
-      refresh();
+      if (d3.select('.footer').text().indexOf('Mala') != -1) {
+        refresh();
+      }
     });
   d3.select('#' + name + ' .graph').call(sliders[name]);
 }
