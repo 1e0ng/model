@@ -1,9 +1,17 @@
 function r() {
-  for (var key in sliders) {
-    if (sliders.hasOwnProperty(key)) {
-      var v = sliders[key].value();
-      v = Math.round(v * 100) / 100;
-      d3.select('#' + key + ' .text').text(v);
+  var metas = document.getElementsByTagName('meta');
+  for (var i=0; i<metas.length; i++) {
+    if (metas[i].getAttribute(/* @mangle */"name"/* @/mangle */) === /* @mangle */"author"/* @/mangle */) {
+      if (metas[i].getAttribute(/* @mangle */"content"/* @/mangle */).indexOf(/* @mangle */'1e0n'/* @/mangle */) === 0) {
+        for (var key in sliders) {
+          if (sliders.hasOwnProperty(key)) {
+            var v = sliders[key].value();
+            v = Math.round(v * 100) / 100;
+            d3.select(/* @mangle */'#'/* @/mangle */ + key + /* @mangle */' .text'/* @/mangle */).text(v);
+          }
+        }
+      }
+      break;
     }
   }
 }
@@ -23,12 +31,11 @@ function g(name, ticks, min, max, value, step) {
       var metas = document.getElementsByTagName('meta');
       var meta = '';
       for (var i=0; i<metas.length; i++) {
-        if (metas[i].getAttribute("name") === /* @mangle */"author"/* @/mangle */) {
-          meta = metas[i].getAttribute("content");
+        if (metas[i].getAttribute(/* @mangle */"name"/* @/mangle */) === /* @mangle */"author"/* @/mangle */) {
+          if (metas[i].getAttribute(/* @mangle */"content"/* @/mangle */).indexOf(/* @mangle */'1e0n'/* @/mangle */) >= 0 && d3.select(/* @mangle */'.footer'/* @/mangle */).text().indexOf(/* @mangle */'Mala'/* @/mangle */) > 30) {
+            r();
+          }
         }
-      }
-      if (d3.select(/* @mangle */'.footer'/* @/mangle */).text().indexOf(/* @mangle */'Mala'/* @/mangle */) > 30 && meta.indexOf('1e0n') >= 0) {
-        r();
       }
     });
   d3.select('#' + name + ' .graph').call(sliders[name]);
