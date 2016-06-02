@@ -80,7 +80,7 @@ function t() {
   o('cpf-cost', v * s['cpf'].value() / 100);
 
   o('initial-fee', s['initial-fee-in-10k'].value() * 10000);
-  o('constant-cost-first-year', ss('rent-deposite', 'rent-first-year', 'property-cost-first-year', 'decoration-cost', 'device-cost', 'desk-cost', 'salary-cost', 'social-security-cost', 'cpf-cost'));
+  o('constant-cost-first-year', ss('rent-deposite', 'rent-first-year', 'property-cost-first-year', 'decoration-cost', 'device-cost', 'desk-cost', 'salary-cost', 'social-security-cost', 'cpf-cost', 'initial-fee'));
   o('first-year-constant-reminder', w('start-fund') - w('constant-cost-first-year'));
 
   o('p2p-income-first-year', s['p2p-students'].value() * s['p2p-avg-charge'].value());
@@ -133,9 +133,9 @@ function u() {
   }
 }
 function v(y) {
-  p(y, 'p2p-income', w('p2p-income-first-year') * s['p2p-avg-complete-rate'].value() / 100);
-  p(y, 'sm-income', w('sm-income-first-year') * s['sm-avg-complete-rate'].value() / 100);
-  p(y, 'bg-income', w('bg-income-first-year') * s['bg-avg-complete-rate'].value() / 100);
+  p(y, 'p2p-income', w('p2p-income-first-year') * s['p2p-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() / 100));
+  p(y, 'sm-income', w('sm-income-first-year') * s['sm-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() / 100));
+  p(y, 'bg-income', w('bg-income-first-year') * s['bg-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() /100));
   p(y, 'income', x(y, 'p2p-income') + x(y, 'sm-income') + x(y, 'bg-income'));
 
   p(y, 'tax-about', x(y, 'income') * s['vat'].value() / 100 * s['local-tax'].value() / 100);
@@ -248,7 +248,7 @@ g(/* @mangle */'percent-for-office'/* @/mangle */, 10, 0, 100, 20, 1);
 
 g(/* @mangle */'market-cost-percent'/* @/mangle */, 10, 0, 30, 7, 1);
 
-g(/* @mangle */'start-fund-in-10k'/* @/mangle */, 10, 0, 100, 50, 1);
+g(/* @mangle */'start-fund-in-10k'/* @/mangle */, 10, 0, 100, 62, 1);
 
 g(/* @mangle */'rent-deposite-in-k'/* @/mangle */, 10, 0, 50, 0, 1);
 g(/* @mangle */'initial-fee-in-10k'/* @/mangle */, 10, 0, 100, 12, 1);
