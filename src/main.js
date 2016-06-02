@@ -12,6 +12,7 @@ function r() {
 
         }
         t();
+        u();
       }
       break;
     }
@@ -50,7 +51,6 @@ function o(k, v) {
 function w(k) {
   return Math.round(parseFloat(d3.select('.' + k + '.text').text()) * 100) / 100;
 }
-
 function ss() {
   var i;
   var sum = 0;
@@ -106,6 +106,50 @@ function t() {
   o('first-year-var-reminder', w('total-income-first-year') - w('var-cost-first-year'));
   o('first-year-reminder', w('first-year-var-reminder') + w('first-year-constant-reminder'));
 }
+function p(y, k, v) {
+  v = Math.round(v * 100) / 100;
+  d3.selectAll(/* @mangle */'.'/* @/mangle */ + k + /* @mangle */'-yearly td.text:nth-child('/* @/mangle */ + (y+1) + /* @mangle */')'/* @/mangle */).text(v);
+}
+function x(y, k) {
+  return Math.round(parseFloat(d3.select('.' + k + '-yearly td.text:nth-child(' + (y+1) + ')').text()) * 100) / 100;
+}
+function u() {
+  var i;
+  for (i = 1; i <= 5; ++i) {
+    v(i);
+    break;
+  }
+}
+function v(y) {
+  p(y, 'p2p-income', w('p2p-income-first-year') * s['p2p-avg-complete-rate'].value() / 100);
+  p(y, 'sm-income', w('sm-income-first-year') * s['sm-avg-complete-rate'].value() / 100);
+  p(y, 'bg-income', w('bg-income-first-year') * s['bg-avg-complete-rate'].value() / 100);
+  p(y, 'income', x(y, 'p2p-income') + x(y, 'sm-income') + x(y, 'bg-income'));
+
+  p(y, 'tax-about', 0);
+  p(y, 'running-cost', 0);
+  p(y, 'pay-teacher', 0);
+  p(y, 'rent', 0);
+  p(y, 'teaching-material-cost', 0);
+  p(y, 'profit', 0);
+  p(y, 'roi', 0);
+  p(y, 'indirect-cost', 0);
+  p(y, 'hr-cost', 0);
+  p(y, 'market-cost', 0);
+  p(y, 'op-cost', 0);
+  p(y, 'admin-cost', 0);
+  p(y, 'finance-cost', 0);
+  p(y, 'decoration-cost', 0);
+  p(y, 'furniture-cost', 0);
+  p(y, 'net-income', 0);
+  p(y, 'other-income', 0);
+  p(y, 'other-cost', 0);
+  p(y, 'pre-tax-profit', 0);
+  p(y, 'entra-tax', 0);
+  p(y, 'after-tax-profit', 0);
+  p(y, 'net-income-rate', 0);
+}
+
 g(/* @mangle */'area'/* @/mangle */, 10, 200, 2000, 300, 50);
 g(/* @mangle */'rent-per-square'/* @/mangle */, 7, 0, 300, 40, 1);
 g(/* @mangle */'rent-months'/* @/mangle */, 10, 0, 120, 36, 6);
