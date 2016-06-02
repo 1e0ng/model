@@ -7,7 +7,7 @@ function r() {
           if (sliders.hasOwnProperty(key)) {
             var v = sliders[key].value();
             v = Math.round(v * 100) / 100;
-            d3.select(/* @mangle */'#'/* @/mangle */ + key + /* @mangle */' .text'/* @/mangle */).text(v);
+            d3.select(/* @mangle */'.'/* @/mangle */ + key + /* @mangle */' .text'/* @/mangle */).text(v);
           }
         }
       }
@@ -38,7 +38,7 @@ function g(name, ticks, min, max, value, step) {
         }
       }
     });
-  d3.select(/* @mangle */'#'/* @/mangle */ + name + /* @mangle */' .graph'/* @/mangle */).call(sliders[name]);
+  d3.select(/* @mangle */'.'/* @/mangle */ + name + /* @mangle */' .graph'/* @/mangle */).call(sliders[name]);
 }
 
 g(/* @mangle */'area'/* @/mangle */, 10, 200, 2000, 300, 50);
