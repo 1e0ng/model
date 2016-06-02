@@ -45,15 +45,21 @@ function g(name, ticks, min, max, value, step) {
 function o(k, v) {
   d3.selectAll(/* @mangle */'.'/* @/mangle */ + k + /* @mangle */'.text'/* @/mangle */).text(v);
 }
+
+function w(k) {
+  return parseInt(d3.select('.' + k + '.text').text());
+}
+
 function ss() {
   var i;
   var sum = 0;
   for (i = 0; i < arguments.length; ++i) {
     //console.log(arguments[i]);
-    sum += parseInt(d3.select('.' + arguments[i] + '.text').text());
+    sum += w(arguments[i]);
   }
   return sum;
 }
+
 function t() {
   o('start-fund', s['start-fund-in-10k'].value() * 10000);
   o('rent-deposite', s['rent-deposite-in-k'].value() * 1000);
@@ -69,6 +75,7 @@ function t() {
 
   o('initial-fee', s['initial-fee-in-10k'].value() * 10000);
   o('first-year-costs', ss('rent-deposite', 'rent-first-year', 'property-costs-first-year', 'furniture-costs', 'device-costs', 'desk-costs', 'salary-costs', 'social-security-costs', 'cpf-costs'));
+  o('first-year-reminder', w('start-fund') - w('first-year-costs'));
 }
 g(/* @mangle */'area'/* @/mangle */, 10, 200, 2000, 300, 50);
 g(/* @mangle */'rent-per-square'/* @/mangle */, 7, 0, 300, 40, 1);
