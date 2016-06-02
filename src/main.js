@@ -66,7 +66,7 @@ function t() {
   o('rent-deposite', s['rent-deposite-in-k'].value() * 1000);
   o('rent-first-year', s['area'].value() * s['rent-per-square'].value() * s['op-month-first-year'].value());
   o('property-cost-first-year', s['area'].value() * s['op-month-first-year'].value() * s['property-cost-per-square'].value());
-  o('furniture-cost', s['area'].value() * s['furniture-cost-per-square'].value());
+  o('decoration-cost', s['area'].value() * s['decoration-cost-per-square'].value());
   o('device-cost', s['device-price'].value() * s['classrooms'].value());
   o('desk-cost', s['desks'].value() * s['desk-price'].value());
   var v = s['salary'].value() * s['hr-first-year'].value() * s['op-month-first-year'].value();
@@ -75,7 +75,7 @@ function t() {
   o('cpf-cost', v * s['cpf'].value() / 100);
 
   o('initial-fee', s['initial-fee-in-10k'].value() * 10000);
-  o('constant-cost-first-year', ss('rent-deposite', 'rent-first-year', 'property-cost-first-year', 'furniture-cost', 'device-cost', 'desk-cost', 'salary-cost', 'social-security-cost', 'cpf-cost'));
+  o('constant-cost-first-year', ss('rent-deposite', 'rent-first-year', 'property-cost-first-year', 'decoration-cost', 'device-cost', 'desk-cost', 'salary-cost', 'social-security-cost', 'cpf-cost'));
   o('first-year-constant-reminder', w('start-fund') - w('constant-cost-first-year'));
 
   o('p2p-income-first-year', s['p2p-students'].value() * s['p2p-avg-charge'].value());
@@ -112,7 +112,7 @@ g(/* @mangle */'rent-months'/* @/mangle */, 10, 0, 120, 36, 6);
 g(/* @mangle */'property-cost-per-square'/* @/mangle */, 11, 0, 20, 2, 1);
 g(/* @mangle */'op-month-first-year'/* @/mangle */, 13, 0, 12, 6, 1);
 g(/* @mangle */'classrooms'/* @/mangle */, 13, 0, 100, 18, 1);
-g(/* @mangle */'furniture-cost-per-square'/* @/mangle */, 11, 0, 2000, 700, 10);
+g(/* @mangle */'decoration-cost-per-square'/* @/mangle */, 11, 0, 2000, 700, 10);
 g(/* @mangle */'hr-first-year'/* @/mangle */, 11, 0, 100, 10, 1);
 g(/* @mangle */'salary'/* @/mangle */, 11, 1000, 5000, 2000, 100);
 g(/* @mangle */'desks'/* @/mangle */, 11, 0, 200, 30, 1);
