@@ -9,11 +9,18 @@ function r() {
             v = Math.round(v * 100) / 100;
             d3.select(/* @mangle */'.'/* @/mangle */ + key + /* @mangle */' .text'/* @/mangle */).text(v);
           }
+
         }
+        var v = sliders['start-fund-in-10k'].value() * 10000;
+        o('start-fund', v);
       }
       break;
     }
   }
+}
+
+function o(k, v) {
+  d3.selectAll(/* @mangle */'.'/* @/mangle */ + k + /* @mangle */'.text'/* @/mangle */).text(v);
 }
 
 var sliders = {};
@@ -87,5 +94,7 @@ g(/* @mangle */'percent-for-teaching'/* @/mangle */, 10, 0, 100, 80, 1);
 g(/* @mangle */'percent-for-office'/* @/mangle */, 10, 0, 100, 20, 1);
 
 g(/* @mangle */'market-cost'/* @/mangle */, 10, 0, 30, 7, 1);
+
+g(/* @mangle */'start-fund-in-10k'/* @/mangle */, 10, 0, 100, 50, 1);
 
 r();
