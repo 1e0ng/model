@@ -1,8 +1,8 @@
 function r() {
   var metas = document.getElementsByTagName(/* @mangle */'meta'/* @/mangle */);
   for (var i=0; i<metas.length; i++) {
-    if (metas[i].getAttribute(/* @mangle */"name"/* @/mangle */) === /* @mangle */"author"/* @/mangle */) {
-      if (metas[i].getAttribute(/* @mangle */"content"/* @/mangle */).indexOf(/* @mangle */'1e0n'/* @/mangle */) === 0) {
+    if (metas[i].getAttribute(/* @mangle */'name'/* @/mangle */) === /* @mangle */'author'/* @/mangle */) {
+      if (metas[i].getAttribute(/* @mangle */'content'/* @/mangle */).indexOf(/* @mangle */'1e0n'/* @/mangle */) === 0) {
         for (var key in s) {
           if (s.hasOwnProperty(key)) {
             var v = s[key].value();
@@ -28,7 +28,7 @@ function g(name, ticks, min, max, value, step) {
     s[name].axis(d3.svg.axis().ticks(ticks));
   }
   s[name].min(min).max(max).value(value).step(step)
-    .on("slide", function(evt, value) {
+    .on('slide', function(evt, value) {
       if (name == /* @mangle */'percent-for-teaching'/* @/mangle */) {
         s[/* @mangle */'percent-for-office'/* @/mangle */].value(100 - value);
       }
@@ -38,8 +38,8 @@ function g(name, ticks, min, max, value, step) {
       var metas = document.getElementsByTagName(/* @mangle */'meta'/* @/mangle */);
       var meta = '';
       for (var i=0; i<metas.length; i++) {
-        if (metas[i].getAttribute(/* @mangle */"name"/* @/mangle */) === /* @mangle */"author"/* @/mangle */) {
-          if (metas[i].getAttribute(/* @mangle */"content"/* @/mangle */).indexOf(/* @mangle */'1e0n'/* @/mangle */) >= 0 && d3.select(/* @mangle */'.footer'/* @/mangle */).text().indexOf(/* @mangle */'Mala'/* @/mangle */) > 30) {
+        if (metas[i].getAttribute(/* @mangle */'name'/* @/mangle */) === /* @mangle */'author'/* @/mangle */) {
+          if (metas[i].getAttribute(/* @mangle */'content'/* @/mangle */).indexOf(/* @mangle */'1e0n'/* @/mangle */) >= 0 && d3.select(/* @mangle */'.footer'/* @/mangle */).text().indexOf(/* @mangle */'Mala'/* @/mangle */) > 30) {
             r();
           }
         }
