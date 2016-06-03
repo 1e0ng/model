@@ -165,7 +165,7 @@ function v(y) {
 
   p(y, 'pre-tax-profit', x(y, 'net-income') + x(y, 'other-income') - x(y, 'other-cost'));
 
-  p(y, 'entra-tax', x(y, 'pre-tax-profit') * 0.25);
+  p(y, 'entra-tax', x(y, 'pre-tax-profit') > 30000 ? (x(y, 'pre-tax-profit') * 0.25) : (x(y, 'pre-tax-profit') * 0.2));
   p(y, 'after-tax-profit', x(y, 'pre-tax-profit') - x(y, 'entra-tax'));
   p(y, 'net-income-rate', x(y, 'after-tax-profit') / x(y, 'income') * 100 + '%');
 }
