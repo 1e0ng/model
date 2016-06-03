@@ -76,46 +76,75 @@ function t() {
   o('start-fund', s['start-fund-in-10k'].value() * 10000);
   o('rent-deposite', s['rent-deposite-in-k'].value() * 1000);
   o('rent-first-year', s['area'].value() * s['rent-per-square'].value() * s['rent-month-first-year'].value());
+  o('rent-second-year', s['area'].value() * s['rent-per-square'].value() * s['rent-month-second-year'].value());
   o('property-cost-first-year', s['area'].value() * s['rent-month-first-year'].value() * s['property-cost-per-square'].value());
+  o('property-cost-second-year', s['area'].value() * s['rent-month-second-year'].value() * s['property-cost-per-square'].value());
   o('decoration-cost', s['area'].value() * s['decoration-cost-per-square'].value());
   o('device-cost', s['device-price'].value() * s['classrooms'].value());
   o('desk-cost', s['desks'].value() * s['desk-price'].value());
   var v = s['salary'].value() * s['hr-first-year'].value() * s['op-month-first-year'].value();
-  o('salary-cost', v);
-  o('social-security-cost', v * s['social-security'].value() / 100);
-  o('cpf-cost', v * s['cpf'].value() / 100);
+  var v2 = s['salary'].value() * s['hr-first-year'].value() * s['op-month-second-year'].value();
+  o('salary-cost-first-year', v);
+  o('salary-cost-second-year', v2);
+  o('social-security-cost-first-year', v * s['social-security'].value() / 100);
+  o('social-security-cost-second-year', v2 * s['social-security'].value() / 100);
+  o('cpf-cost-first-year', v * s['cpf'].value() / 100);
+  o('cpf-cost-second-year', v2 * s['cpf'].value() / 100);
 
   o('initial-fee', s['initial-fee-in-10k'].value() * 10000);
-  o('constant-cost-first-year', ss('rent-deposite', 'rent-first-year', 'property-cost-first-year', 'decoration-cost', 'device-cost', 'desk-cost', 'salary-cost', 'social-security-cost', 'cpf-cost', 'initial-fee'));
+  o('constant-cost-first-year', ss('rent-deposite', 'rent-first-year', 'property-cost-first-year', 'decoration-cost', 'device-cost', 'desk-cost', 'salary-cost-first-year', 'social-security-cost-first-year', 'cpf-cost-first-year', 'initial-fee'));
+  o('constant-cost-second-year', ss('rent-second-year', 'property-cost-second-year', 'salary-cost-second-year', 'social-security-cost-second-year', 'cpf-cost-second-year'));
   o('first-year-constant-reminder', w('start-fund') - w('constant-cost-first-year'));
 
   o('p2p-income-first-year', s['p2p-student-first-year'].value() * s['p2p-avg-charge'].value());
+  o('p2p-income-second-year', s['p2p-student-second-year'].value() * s['p2p-avg-charge'].value());
   o('sm-income-first-year', s['sm-student-first-year'].value() * s['sm-avg-charge'].value());
+  o('sm-income-second-year', s['sm-student-second-year'].value() * s['sm-avg-charge'].value());
   o('bg-income-first-year', s['bg-student-first-year'].value() * s['bg-avg-charge'].value());
+  o('bg-income-second-year', s['bg-student-second-year'].value() * s['bg-avg-charge'].value());
 
   o('total-income-first-year', ss('p2p-income-first-year', 'sm-income-first-year', 'bg-income-first-year'));
+  o('total-income-second-year', ss('p2p-income-second-year', 'sm-income-second-year', 'bg-income-second-year'));
 
   o('support-cost-first-year', w('total-income-first-year') * s['support-commission'].value() / 100);
+  o('support-cost-second-year', w('total-income-second-year') * s['support-commission'].value() / 100);
 
   v = (w('p2p-income-first-year') * s['p2p-avg-complete-rate'].value() + w('sm-income-first-year') * s['sm-avg-complete-rate'].value() + w('bg-income-first-year') * s['bg-avg-complete-rate'].value()) / 100;
+  v2 = (w('p2p-income-second-year') * s['p2p-avg-complete-rate'].value() + w('sm-income-second-year') * s['sm-avg-complete-rate'].value() + w('bg-income-second-year') * s['bg-avg-complete-rate'].value()) / 100;
   o('vat-first-year', v * s['vat'].value() / 100);
+  o('vat-second-year', v2 * s['vat'].value() / 100);
   o('local-tax-first-year', w('vat-first-year') * s['local-tax'].value() / 100);
+  o('local-tax-second-year', w('vat-second-year') * s['local-tax'].value() / 100);
   o('sales-commission-first-year', w('total-income-first-year') * s['sales-commission'].value() / 100);
+  o('sales-commission-second-year', w('total-income-second-year') * s['sales-commission'].value() / 100);
 
   o('pay-p2p-teacher-first-year', w('p2p-income-first-year') * s['p2p-avg-complete-rate'].value() * s['pay-teacher-percent-for-p2p'].value() / 10000);
+  o('pay-p2p-teacher-second-year', w('p2p-income-second-year') * s['p2p-avg-complete-rate'].value() * s['pay-teacher-percent-for-p2p'].value() / 10000);
   o('pay-class-teacher-first-year', (w('sm-income-first-year') * s['sm-avg-complete-rate'].value() + w('bg-income-first-year') * s['bg-avg-complete-rate'].value()) * s['pay-teacher-percent-for-class'].value() / 10000);
+  o('pay-class-teacher-second-year', (w('sm-income-second-year') * s['sm-avg-complete-rate'].value() + w('bg-income-second-year') * s['bg-avg-complete-rate'].value()) * s['pay-teacher-percent-for-class'].value() / 10000);
   o('market-cost-first-year', v * s['market-cost-percent'].value() / 100);
+  o('market-cost-second-year', v2 * s['market-cost-percent'].value() / 100);
 
   o('tutoring-cost-first-year', s['tutoring-cost-first-year'].value());
+  o('tutoring-cost-second-year', s['tutoring-cost-second-year'].value());
   o('water-elec-cost-first-year', s['water-elec-cost-first-year'].value());
+  o('water-elec-cost-second-year', s['water-elec-cost-second-year'].value());
 
   o('office-material-cost-first-year', s['hr-first-year'].value() * s['op-month-first-year'].value() * s['office-material-cost-per-person'].value());
+  o('office-material-cost-second-year', s['hr-first-year'].value() * s['op-month-second-year'].value() * s['office-material-cost-per-person'].value());
   o('finance-cost-first-year', w('total-income-first-year') * s['credit-card-fee-percent'].value() * s['credit-card-contrib'].value() / 10000);
+  o('finance-cost-second-year', w('total-income-second-year') * s['credit-card-fee-percent'].value() * s['credit-card-contrib'].value() / 10000);
 
   o('var-cost-first-year', ss('support-cost-first-year', 'vat-first-year', 'local-tax-first-year', 'sales-commission-first-year', 'pay-p2p-teacher-first-year', 'pay-class-teacher-first-year', 'market-cost-first-year', 'tutoring-cost-first-year', 'water-elec-cost-first-year', 'office-material-cost-first-year', 'finance-cost-first-year'));
+  o('var-cost-second-year', ss('support-cost-second-year', 'vat-second-year', 'local-tax-second-year', 'sales-commission-second-year', 'pay-p2p-teacher-second-year', 'pay-class-teacher-second-year', 'market-cost-second-year', 'tutoring-cost-second-year', 'water-elec-cost-second-year', 'office-material-cost-second-year', 'finance-cost-second-year'));
 
   o('first-year-var-reminder', w('total-income-first-year') - w('var-cost-first-year'));
+  o('second-year-var-reminder', w('total-income-second-year') - w('var-cost-second-year'));
   o('first-year-reminder', w('first-year-var-reminder') + w('first-year-constant-reminder'));
+
+  o('second-year-constant-reminder', w('first-year-reminder') - w('constant-cost-second-year'));
+
+  o('second-year-reminder', w('second-year-var-reminder') + w('second-year-constant-reminder'));
 }
 function p(y, k, v) {
   v = '' + v;
