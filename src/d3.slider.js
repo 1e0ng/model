@@ -5,18 +5,18 @@
     BSD license: http://opensource.org/licenses/BSD-3-Clause
 */
 (function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
+  if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['d3'], factory);
-  } else if (typeof exports === 'object') {
+    define(["d3"], factory);
+  } else if (typeof exports === "object") {
     if (process.browser) {
       // Browserify. Import css too using cssify.
-      require('./d3.slider.css');
+      require("./d3.slider.css");
     }
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    module.exports = factory(require('d3'));
+    module.exports = factory(require("d3"));
   } else {
     // Browser globals (root is window)
     root.d3.slider = factory(root.d3);
@@ -63,7 +63,7 @@ return function module() {
       var div = d3.select(this).classed("d3-slider d3-slider-" + orientation, true);
       
       var drag = d3.behavior.drag();
-      drag.on('dragend', function () {
+      drag.on("dragend", function () {
         dispatch.slideend(d3.event, value);
       })
 
@@ -75,12 +75,12 @@ return function module() {
         handle1 = div.append("a")
           .classed("d3-slider-handle", true)
           .attr("xlink:href", "#")
-          .attr('id', "handle-one")
+          .attr("id", "handle-one")
           .on("click", stopPropagation)
           .call(drag);
         handle2 = div.append("a")
           .classed("d3-slider-handle", true)
-          .attr('id', "handle-two")
+          .attr("id", "handle-two")
           .attr("xlink:href", "#")
           .on("click", stopPropagation)
           .call(drag);
@@ -88,7 +88,7 @@ return function module() {
         handle1 = div.append("a")
           .classed("d3-slider-handle", true)
           .attr("xlink:href", "#")
-          .attr('id', "handle-one")
+          .attr("id", "handle-one")
           .on("click", stopPropagation)
           .call(drag);
       }
@@ -99,7 +99,7 @@ return function module() {
         div.on("click", onClickHorizontal);
         
         if (toType(value) == "array" && value.length == 2) {
-          divRange = d3.select(this).append('div').classed("d3-slider-range", true);
+          divRange = d3.select(this).append("div").classed("d3-slider-range", true);
 
           handle1.style("left", formatPercent(scale(value[ 0 ])));
           divRange.style("left", formatPercent(scale(value[ 0 ])));
@@ -122,7 +122,7 @@ return function module() {
         div.on("click", onClickVertical);
         drag.on("drag", onDragVertical);
         if (toType(value) == "array" && value.length == 2) {
-          divRange = d3.select(this).append('div').classed("d3-slider-range-vertical", true);
+          divRange = d3.select(this).append("div").classed("d3-slider-range-vertical", true);
 
           handle1.style("bottom", formatPercent(scale(value[ 0 ])));
           divRange.style("bottom", formatPercent(scale(value[ 0 ])));

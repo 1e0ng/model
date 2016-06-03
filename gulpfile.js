@@ -9,6 +9,7 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     rsync  = require('gulp-rsync'),
     gnirts = require('gulp-gnirts'),
+    replace = require('gulp-replace'),
     del = require('del');
 
 gulp.task('styles', function() {
@@ -23,6 +24,7 @@ gulp.task('styles', function() {
 
 gulp.task('scripts', function() {
   return gulp.src('src/*.js')
+    .pipe(replace(/'([^']*)'/g, "/* @mangle */'$1'/* @/mangle */"))
     .pipe(gnirts())
     .pipe(concat('main.js'))
     .pipe(rename({suffix: '.min'}))
