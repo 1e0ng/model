@@ -84,8 +84,8 @@ function t() {
   o('first-year-constant-reminder', w('start-fund') - w('constant-cost-first-year'));
 
   o('p2p-income-first-year', s['p2p-student-first-year'].value() * s['p2p-avg-charge'].value());
-  o('sm-income-first-year', s['sm-students'].value() * s['sm-avg-charge'].value());
-  o('bg-income-first-year', s['bg-students'].value() * s['bg-avg-charge'].value());
+  o('sm-income-first-year', s['sm-student-first-year'].value() * s['sm-avg-charge'].value());
+  o('bg-income-first-year', s['bg-student-first-year'].value() * s['bg-avg-charge'].value());
 
   o('total-income-first-year', ss('p2p-income-first-year', 'sm-income-first-year', 'bg-income-first-year'));
 
@@ -142,7 +142,7 @@ function v(y) {
 
   p(y, 'pay-teacher', (x(y, 'p2p-income') * s['pay-teacher-percent-for-p2p'].value() + (x(y, 'sm-income') + x(y, 'bg-income')) * s['pay-teacher-percent-for-class'].value()) / 100);
   p(y, 'rent', s['area'].value() * s['rent-month-first-year'].value() * s['rent-per-square'].value() * s['percent-for-teaching'].value() / 100);
-  p(y, 'teaching-material-cost', (s['p2p-student-first-year'].value() + s['sm-students'].value() + s['bg-students'].value()) * s['course-material-cost'].value());
+  p(y, 'teaching-material-cost', (s['p2p-student-first-year'].value() + s['sm-student-first-year'].value() + s['bg-student-first-year'].value()) * s['course-material-cost'].value());
   p(y, 'running-cost', x(y, 'pay-teacher') + x(y, 'rent') + x(y, 'teaching-material-cost'));
 
   p(y, 'profit', x(y, 'income') - x(y, 'tax-about') - x(y, 'running-cost'));
@@ -223,11 +223,13 @@ g(/* @mangle */'p2p-student-second-year'/* @/mangle */, 10, 0, 500, 150, 10);
 g(/* @mangle */'p2p-avg-charge'/* @/mangle */, 9, 0, 16000, 8000, 1000);
 g(/* @mangle */'p2p-avg-complete-rate'/* @/mangle */, 10, 0, 100, 80, 5);
 
-g(/* @mangle */'sm-students'/* @/mangle */, 10, 0, 500, 60, 10);
+g(/* @mangle */'sm-student-first-year'/* @/mangle */, 10, 0, 500, 60, 10);
+g(/* @mangle */'sm-student-second-year'/* @/mangle */, 10, 0, 500, 140, 10);
 g(/* @mangle */'sm-avg-charge'/* @/mangle */, 5, 0, 4000, 2000, 100);
 g(/* @mangle */'sm-avg-complete-rate'/* @/mangle */, 10, 0, 100, 95, 5);
 
-g(/* @mangle */'bg-students'/* @/mangle */, 10, 0, 500, 100, 10);
+g(/* @mangle */'bg-student-first-year'/* @/mangle */, 10, 0, 500, 100, 10);
+g(/* @mangle */'bg-student-second-year'/* @/mangle */, 10, 0, 500, 160, 10);
 g(/* @mangle */'bg-avg-charge'/* @/mangle */, 9, 0, 1600, 800, 100);
 g(/* @mangle */'bg-avg-complete-rate'/* @/mangle */, 10, 0, 100, 95, 5);
 
@@ -260,9 +262,12 @@ g(/* @mangle */'rent-deposite-in-k'/* @/mangle */, 10, 0, 50, 0, 1);
 g(/* @mangle */'initial-fee-in-10k'/* @/mangle */, 10, 0, 100, 12, 1);
 
 g(/* @mangle */'tutoring-cost-first-year'/* @/mangle */, 10, 0, 2000, 0, 100);
+g(/* @mangle */'tutoring-cost-second-year'/* @/mangle */, 10, 0, 2000, 0, 100);
 g(/* @mangle */'water-elec-cost-first-year'/* @/mangle */, 10, 0, 1000, 0, 10);
-
+g(/* @mangle */'water-elec-cost-second-year'/* @/mangle */, 10, 0, 1000, 0, 10);
 
 g(/* @mangle */'other-income-first-year'/* @/mangle */, 5, 0, 100000, 0, 1000);
+g(/* @mangle */'other-income-second-year'/* @/mangle */, 5, 0, 100000, 0, 1000);
 g(/* @mangle */'other-cost-first-year'/* @/mangle */, 5, 0, 100000, 0, 1000);
+g(/* @mangle */'other-cost-second-year'/* @/mangle */, 5, 0, 100000, 0, 1000);
 r();
