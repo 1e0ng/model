@@ -20,8 +20,14 @@ function r() {
 var s = {};
 
 function g(name, ticks, min, max, value, step) {
-  s[name] = d3.slider().axis(d3.svg.axis().ticks(ticks))
-    .min(min).max(max).value(value).step(step)
+  s[name] = d3.slider();
+  if (Object.prototype.toString.call(ticks) === '[object Array]') {
+    s[name].axis(d3.svg.axis().tickValues(ticks));
+  }
+  else {
+    s[name].axis(d3.svg.axis().ticks(ticks));
+  }
+  s[name].min(min).max(max).value(value).step(step)
     .on("slide", function(evt, value) {
       if (name == /* @mangle */'percent-for-teaching'/* @/mangle */) {
         s[/* @mangle */'percent-for-office'/* @/mangle */].value(100 - value);
@@ -239,7 +245,7 @@ g(/* @mangle */'course-material-cost'/* @/mangle */, 10, 0, 100, 20, 5);
 g(/* @mangle */'pay-teacher-percent-for-p2p'/* @/mangle */, 10, 0, 100, 40, 1);
 g(/* @mangle */'pay-teacher-percent-for-class'/* @/mangle */, 10, 0, 100, 30, 1);
 
-g(/* @mangle */'vat'/* @/mangle */, 3, 0, 6, 3, 3);
+g(/* @mangle */'vat'/* @/mangle */, d3.range(0, 9, 3), 0, 6, 3, 3);
 g(/* @mangle */'local-tax'/* @/mangle */, 10, 0, 30, 12, 1);
 
 g(/* @mangle */'credit-card-fee-percent'/* @/mangle */, 10, 0, 3, 0.78, 0.01);
