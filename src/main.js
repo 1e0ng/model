@@ -66,7 +66,6 @@ function ss() {
   var i;
   var sum = 0;
   for (i = 0; i < arguments.length; ++i) {
-    //console.log(arguments[i]);
     sum += w(arguments[i]);
   }
   return sum;
@@ -83,7 +82,7 @@ function t() {
   o('device-cost', s['device-price'].value() * s['classrooms'].value());
   o('desk-cost', s['desks'].value() * s['desk-price'].value());
   var v = s['salary'].value() * s['hr-first-year'].value() * s['op-month-first-year'].value();
-  var v2 = s['salary'].value() * s['hr-first-year'].value() * s['op-month-second-year'].value();
+  var v2 = s['salary'].value() * s['hr-second-year'].value() * s['op-month-second-year'].value();
   o('salary-cost-first-year', v);
   o('salary-cost-second-year', v2);
   o('social-security-cost-first-year', v * s['social-security'].value() / 100);
@@ -131,7 +130,7 @@ function t() {
   o('water-elec-cost-second-year', s['water-elec-cost-second-year'].value());
 
   o('office-material-cost-first-year', s['hr-first-year'].value() * s['op-month-first-year'].value() * s['office-material-cost-per-person'].value());
-  o('office-material-cost-second-year', s['hr-first-year'].value() * s['op-month-second-year'].value() * s['office-material-cost-per-person'].value());
+  o('office-material-cost-second-year', s['hr-second-year'].value() * s['op-month-second-year'].value() * s['office-material-cost-per-person'].value());
   o('finance-cost-first-year', w('total-income-first-year') * s['credit-card-fee-percent'].value() * s['credit-card-contrib'].value() / 10000);
   o('finance-cost-second-year', w('total-income-second-year') * s['credit-card-fee-percent'].value() * s['credit-card-contrib'].value() / 10000);
 
@@ -154,7 +153,6 @@ function p(y, k, v) {
   else {
     v = Math.round(v * 100) / 100;
   }
-
   d3.selectAll(/* @mangle */'.'/* @/mangle */ + k + /* @mangle */'-yearly td.text:nth-child('/* @/mangle */ + (y+1) + /* @mangle */')'/* @/mangle */).text(v);
 }
 function x(y, k) {
@@ -164,39 +162,39 @@ function u() {
   var i;
   for (i = 1; i <= 5; ++i) {
     v(i);
-    break;
   }
 }
 function v(y) {
-  p(y, 'p2p-income', w('p2p-income-first-year') * s['p2p-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() / 100));
-  p(y, 'sm-income', w('sm-income-first-year') * s['sm-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() / 100));
-  p(y, 'bg-income', w('bg-income-first-year') * s['bg-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() /100));
+  var yn = (y === 1 ? 'first' : 'second');
+  p(y, 'p2p-income', w('p2p-income-' + yn + '-year') * s['p2p-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() / 100));
+  p(y, 'sm-income', w('sm-income-' + yn + '-year') * s['sm-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() / 100));
+  p(y, 'bg-income', w('bg-income-' + yn + '-year') * s['bg-avg-complete-rate'].value() / 100 / (1 + s['vat'].value() /100));
   p(y, 'income', x(y, 'p2p-income') + x(y, 'sm-income') + x(y, 'bg-income'));
 
   p(y, 'tax-about', x(y, 'income') * s['vat'].value() / 100 * s['local-tax'].value() / 100);
 
   p(y, 'pay-teacher', (x(y, 'p2p-income') * s['pay-teacher-percent-for-p2p'].value() + (x(y, 'sm-income') + x(y, 'bg-income')) * s['pay-teacher-percent-for-class'].value()) / 100);
-  p(y, 'rent', s['area'].value() * s['rent-month-first-year'].value() * s['rent-per-square'].value() * s['percent-for-teaching'].value() / 100);
-  p(y, 'teaching-material-cost', (s['p2p-student-first-year'].value() + s['sm-student-first-year'].value() + s['bg-student-first-year'].value()) * s['course-material-cost'].value());
+  p(y, 'rent', s['area'].value() * s['rent-month-' + yn + '-year'].value() * s['rent-per-square'].value() * s['percent-for-teaching'].value() / 100);
+  p(y, 'teaching-material-cost', (s['p2p-student-' + yn + '-year'].value() + s['sm-student-' + yn + '-year'].value() + s['bg-student-' + yn + '-year'].value()) * s['course-material-cost'].value());
   p(y, 'running-cost', x(y, 'pay-teacher') + x(y, 'rent') + x(y, 'teaching-material-cost'));
 
   p(y, 'profit', x(y, 'income') - x(y, 'tax-about') - x(y, 'running-cost'));
 
   p(y, 'gross-margin', x(y, 'profit') / x(y, 'income') * 100 + '%');
 
-  p(y, 'hr-cost', s['hr-first-year'].value() * s['salary'].value() * s['op-month-first-year'].value() * (1 + s['social-security'].value() / 100 + s['cpf'].value() / 100) + s['sales-commission'].value() / 100 * w('total-income-first-year') + w('tutoring-cost-first-year'));
-  p(y, 'market-cost', w('market-cost-first-year'));
-  p(y, 'op-cost', s['hr-first-year'].value() * s['office-material-cost-per-person'].value() * s['op-month-first-year'].value() + w('total-income-first-year') * s['support-commission'].value() / 100 + s['initial-fee-in-10k'].value() * 10000 / 36 * s['op-month-first-year'].value());
-  p(y, 'admin-cost', s['area'].value() * s['percent-for-office'].value() / 100 * s['rent-month-first-year'].value() * s['rent-per-square'].value() + w('property-cost-first-year') + w('water-elec-cost-first-year'));
-  p(y, 'finance-cost', w('total-income-first-year') * s['credit-card-fee-percent'].value() / 100 * s['credit-card-contrib'].value() / 100);
-  p(y, 'decoration-cost', s['area'].value() * s['decoration-cost-per-square'].value() / s['rent-months'].value() * (s['op-month-first-year'].value() - 1));
-  p(y, 'furniture-cost', (w('device-cost') + w('desk-cost')) / 60 * (s['op-month-first-year'].value() - 1));
+  p(y, 'hr-cost', s['hr-' + yn + '-year'].value() * s['salary'].value() * s['op-month-' + yn + '-year'].value() * (1 + s['social-security'].value() / 100 + s['cpf'].value() / 100) + s['sales-commission'].value() / 100 * w('total-income-' + yn + '-year') + w('tutoring-cost-' + yn + '-year'));
+  p(y, 'market-cost', w('market-cost-' + yn + '-year'));
+  p(y, 'op-cost', s['hr-' + yn + '-year'].value() * s['office-material-cost-per-person'].value() * s['op-month-' + yn + '-year'].value() + w('total-income-' + yn + '-year') * s['support-commission'].value() / 100 + s['initial-fee-in-10k'].value() * 10000 / 36 * s['op-month-' + yn + '-year'].value());
+  p(y, 'admin-cost', s['area'].value() * s['percent-for-office'].value() / 100 * s['rent-month-' + yn + '-year'].value() * s['rent-per-square'].value() + w('property-cost-' + yn + '-year') + w('water-elec-cost-' + yn + '-year'));
+  p(y, 'finance-cost', w('total-income-' + yn + '-year') * s['credit-card-fee-percent'].value() / 100 * s['credit-card-contrib'].value() / 100);
+  p(y, 'decoration-cost', s['area'].value() * s['decoration-cost-per-square'].value() / s['rent-months'].value() * (s['op-month-' + yn + '-year'].value() - 1));
+  p(y, 'furniture-cost', (w('device-cost') + w('desk-cost')) / 60 * (s['op-month-' + yn + '-year'].value() - 1));
   p(y, 'indirect-cost', x(y, 'hr-cost') + x(y, 'market-cost') + x(y, 'op-cost') + x(y, 'admin-cost') + x(y, 'finance-cost') + x(y, 'decoration-cost') + x(y, 'furniture-cost'));
 
   p(y, 'net-income', x(y, 'profit') - x(y, 'indirect-cost'));
 
-  p(y, 'other-income', s['other-income-first-year'].value());
-  p(y, 'other-cost', s['other-cost-first-year'].value());
+  p(y, 'other-income', s['other-income-' + yn + '-year'].value());
+  p(y, 'other-cost', s['other-cost-' + yn + '-year'].value());
 
   p(y, 'pre-tax-profit', x(y, 'net-income') + x(y, 'other-income') - x(y, 'other-cost'));
 
@@ -248,6 +246,7 @@ g(/* @mangle */'rent-month-second-year'/* @/mangle */, 13, 0, 12, 12, 1);
 g(/* @mangle */'classrooms'/* @/mangle */, 13, 0, 100, 18, 1);
 g(/* @mangle */'decoration-cost-per-square'/* @/mangle */, 11, 0, 2000, 700, 10);
 g(/* @mangle */'hr-first-year'/* @/mangle */, 11, 0, 100, 10, 1);
+g(/* @mangle */'hr-second-year'/* @/mangle */, 11, 0, 100, 10, 1);
 g(/* @mangle */'salary'/* @/mangle */, 11, 1000, 5000, 2000, 100);
 g(/* @mangle */'desks'/* @/mangle */, 11, 0, 200, 30, 1);
 g(/* @mangle */'desk-price'/* @/mangle */, 10, 100, 1000, 500, 10);
