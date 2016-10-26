@@ -242,7 +242,7 @@ g('rent-month-first-year', 13, 0, 12, 6, 1);
 g('op-month-second-year', 13, 0, 12, 12, 1);
 g('rent-month-second-year', 13, 0, 12, 12, 1);
 
-g('classrooms', 13, 0, 100, 18, 1);
+g('classrooms', 13, 0, 30, 18, 1);
 g('decoration-cost-per-square', 11, 0, 2000, 700, 10);
 g('hr-first-year', 11, 0, 100, 10, 1);
 g('hr-second-year', 11, 0, 100, 10, 1);
