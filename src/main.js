@@ -21,10 +21,10 @@ var s = {};
 function g(name, ticks, min, max, value, step) {
   s[name] = d3.slider();
   if (Object.prototype.toString.call(ticks) === '[object Array]') {
-    s[name].axis(d3.svg.axis().tickValues(ticks));
+    s[name].axis(d3.axisBottom().tickValues(ticks));
   }
   else {
-    s[name].axis(d3.svg.axis().ticks(ticks));
+    s[name].axis(d3.axisBottom().ticks(ticks));
   }
   s[name].min(min).max(max).value(value).step(step)
     .on('slide', function(evt, value) {
@@ -304,3 +304,66 @@ g('other-income-second-year', 5, 0, 100000, 0, 1000);
 g('other-cost-first-year', 5, 0, 100000, 0, 1000);
 g('other-cost-second-year', 5, 0, 100000, 0, 1000);
 r();
+
+
+//----------------------------
+//
+var margin = {top: 20, right: 30, bottom: 40, left: 30},
+    width = 860 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+var data = [
+  {name:'A', value:-15},
+  {name:'B', value:-20},
+  {name:'C', value:-22},
+  {name:'D', value:-18},
+  {name:'E', value:2},
+  {name:'F', value:6},
+  {name:'G', value:26},
+  {name:'H', value:18}
+];
+
+var x = d3.scaleLinear()
+    .range([0, width]);
+
+var y = d3.scaleBand().rangeRound([0, height]).padding(0.1);
+
+var xAxis = d3.axisBottom()
+    .scale(x);
+
+var yAxis = d3.axisLeft()
+    .scale(y)
+    .tickSize(0)
+    .tickPadding(6);
+
+var svg = d3.select(".cashflow").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+x.domain(d3.extent(data, function(d) { return d.value; })).nice();
+y.domain(data.map(function(d) { return d.name; }));
+
+svg.selectAll(".cashflow .bar")
+  .data(data)
+  .enter().append("rect")
+  .attr("class", function(d) { return "bar bar--" + (d.value < 0 ? "negative" : "positive"); })
+  .attr("x", function(d) { return x(Math.min(0, d.value)); })
+  .attr("y", function(d) { return y(d.name); })
+  .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); })
+  .attr("height", y.bandwidth());
+
+svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis);
+
+svg.append("g")
+  .attr("class", "y axis")
+  .attr("transform", "translate(" + x(0) + ",0)")
+  .call(yAxis);
+
+function type(d) {
+  d.value = +d.value;
+  return d;
+}

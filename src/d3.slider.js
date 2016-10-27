@@ -53,7 +53,7 @@ return function module() {
 
       // Create scale if not defined by user
       if (!scale) {
-        scale = d3.scale.linear().domain([min, max]);
+        scale = d3.scaleLinear().domain([min, max]);
       }
 
       // Start value
@@ -62,9 +62,9 @@ return function module() {
       // DIV container
       var div = d3.select(this).classed("d3-slider d3-slider-" + orientation, true);
       
-      var drag = d3.behavior.drag();
-      drag.on("dragend", function () {
-        dispatch.slideend(d3.event, value);
+      var drag = d3.drag();
+      drag.on("end", function () {
+        dispatch.call('slideend', d3.event, value);
       })
 
       // Slider handle
@@ -92,12 +92,10 @@ return function module() {
           .on("click", stopPropagation)
           .call(drag);
       }
-      
       // Horizontal slider
       if (orientation === "horizontal") {
 
         div.on("click", onClickHorizontal);
-        
         if (toType(value) == "array" && value.length == 2) {
           divRange = d3.select(this).append("div").classed("d3-slider-range", true);
 
@@ -148,14 +146,15 @@ return function module() {
 
 
       function createAxis(dom) {
+        var orient = (orientation === "horizontal") ? "bottom" :  "right";
 
         // Create axis if not defined by user
         if (typeof axis === "boolean") {
 
-          axis = d3.svg.axis()
+          axis = axis()
               .ticks(Math.round(sliderLength / 100))
               .tickFormat(tickFormat)
-              .orient((orientation === "horizontal") ? "bottom" :  "right");
+              .orient(orient);
 
         }
 
@@ -165,7 +164,7 @@ return function module() {
 
           // Create SVG axis container
         var svg = dom.append("svg")
-            .classed("d3-slider-axis d3-slider-axis-" + axis.orient(), true)
+            .classed("d3-slider-axis d3-slider-axis-" + orient, true)
             .on("click", stopPropagation);
 
         var g = svg.append("g");
@@ -175,12 +174,10 @@ return function module() {
 
           svg.style("margin-left", -margin + "px");
 
-          svg.attr({
-            width: sliderLength + margin * 2,
-            height: margin
-          });
+          svg.attr('width', sliderLength + margin * 2);
+          svg.attr('height', margin);
 
-          if (axis.orient() === "top") {
+          if (orient === "top") {
             svg.style("top", -margin + "px");
             g.attr("transform", "translate(" + margin + "," + margin + ")");
           } else { // bottom
@@ -196,7 +193,7 @@ return function module() {
             height: sliderLength + margin * 2
           });
 
-          if (axis.orient() === "left") {
+          if (orient === "left") {
             svg.style("left", -margin + "px");
             g.attr("transform", "translate(" + margin + "," + margin + ")");
           } else { // right          
@@ -270,11 +267,11 @@ return function module() {
       if (toType(value) == "array" && value.length == 2) {
         value[ active - 1 ] = newValue;
         if (d3.event) {
-          dispatch.slide(d3.event, value );
+          dispatch.call('slide', d3.event, value );
         };
       } else {
         if (d3.event) {
-          dispatch.slide(d3.event.sourceEvent || d3.event, value = newValue);
+          dispatch.call('slide', d3.event.sourceEvent || d3.event, value = newValue);
         };
       }
 
@@ -419,7 +416,10 @@ return function module() {
     return slider;
   };
 
-  d3.rebind(slider, dispatch, "on");
+  slider.on = function() {
+    var value = dispatch.on.apply(dispatch, arguments);
+    return value === dispatch ? slider : value;
+  }
 
   return slider;
 
