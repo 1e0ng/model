@@ -314,6 +314,9 @@ function gr() {
 
   data.push({name: 2016, value: w('first-year-reminder')});
   data.push({name: 2017, value: w('second-year-reminder')});
+  data.push({name: 2018, value: 0});
+  data.push({name: 2019, value: 0});
+  data.push({name: 2020, value: 0});
 
   var margin = {top: 60, right: 60, bottom: 60, left: 60},
     width = 300 - margin.left - margin.right,
@@ -357,8 +360,8 @@ function gr() {
     .data(data)
     .enter().append("text")
     .attr("class", "label")
-    .attr("x", function(d) { return x(d.name) + 7; })
-    .attr("y", function(d) { return y(d.value) - 5 * Math.sign(d.value); })
+    .attr("x", function(d) { return x(d.name); })
+    .attr("y", function(d) { return y(d.value) - 7 * (d.value >= 0 ? 1 : -1); })
     .attr("dy", ".35em")
     .text(function(d) { return d.value; });
 
