@@ -10,7 +10,7 @@ function r() {
             d3.select('.' + key + ' .text').text(v);
           }
         }
-        t(); u(); b();
+        t(); u(); b(); gr();
       }
       break;
     }
@@ -308,74 +308,73 @@ r();
 
 /*------------------------------------------------------------------------*/
 
+function gr() {
+  d3.select('.cashflow>svg').remove();
+  var data = [];
 
-var margin = {top: 40, right: 20, bottom: 20, left: 30},
+  data.push({name: 2016, value: w('first-year-reminder')});
+  data.push({name: 2017, value: w('second-year-reminder')});
+
+  var margin = {top: 60, right: 60, bottom: 60, left: 60},
     width = 300 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
-var data = [
-  {name:'2016', value:-15},
-  {name:'2017', value:-20},
-  {name:'2018', value:-22},
-  {name:'2019', value:8},
-  {name:'2020', value:20},
-];
+  var x = d3.scaleBand()
+    .rangeRound([0, width])
+    .padding(0.1);
 
-var x = d3.scaleBand()
-  .rangeRound([0, width])
-  .padding(0.1);
-
-var y = d3.scaleLinear()
+  var y = d3.scaleLinear()
     .range([height, 0]);
 
-var xAxis = d3.axisBottom()
+  var xAxis = d3.axisBottom()
     .scale(x)
     .tickSize(0)
     .tickPadding(10);
 
-var yAxis = d3.axisLeft()
+  var yAxis = d3.axisLeft()
     .scale(y);
 
-var svg = d3.select(".cashflow").append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  var svg = d3.select(".cashflow").append('svg')
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-y.domain(d3.extent(data, function(d) { return d.value; })).nice();
-x.domain(data.map(function(d) { return d.name; }));
+  y.domain(d3.extent(data.concat({value:0}), function(d) { return d.value; })).nice();
+  x.domain(data.map(function(d) { return d.name; }));
 
-svg.selectAll(".bar")
-  .data(data)
-  .enter().append("rect")
-  .attr("class", function(d) { return "bar bar--" + (d.value < 0 ? "negative" : "positive"); })
-  .attr("x", function(d) { return x(d.name); })
-  .attr("y", function(d) { return y(Math.max(0, d.value)); })
-  .attr("width", function(d) { return x.bandwidth(); })
-  .attr("height", function(d) { return Math.abs(y(d.value) - y(0));});
+  svg.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+    .attr("class", function(d) { return "bar bar--" + (d.value < 0 ? "negative" : "positive"); })
+    .attr("x", function(d) { return x(d.name); })
+    .attr("y", function(d) { return y(Math.max(0, d.value)); })
+    .attr("width", function(d) { return x.bandwidth(); })
+    .attr("height", function(d) { return Math.abs(y(d.value) - y(0));});
 
-svg.append("g")
-  .attr("class", "axis")
-  .selectAll(".label")
-  .data(data)
-  .enter().append("text")
-  .attr("class", "label")
-  .attr("x", function(d) { return x(d.name) + 7; })
-  .attr("y", function(d) { return y(d.value + Math.sign(d.value)); })
-  .attr("dy", ".35em")
-  .text(function(d) { return d.value; });
+  svg.append("g")
+    .attr("class", "axis")
+    .selectAll(".label")
+    .data(data)
+    .enter().append("text")
+    .attr("class", "label")
+    .attr("x", function(d) { return x(d.name) + 7; })
+    .attr("y", function(d) { return y(d.value) - 5 * Math.sign(d.value); })
+    .attr("dy", ".35em")
+    .text(function(d) { return d.value; });
 
 
-svg.append("g")
-  .attr("class", "y axis")
-  .attr("transform", "translate(0,0)")
-  .call(yAxis);
+  svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(0,0)")
+    .call(yAxis);
 
-svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + y(0) + ")")
-  .call(xAxis);
+  svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + y(0) + ")")
+    .call(xAxis);
 
-function type(d) {
-  d.value = +d.value;
-  return d;
+  function type(d) {
+    d.value = +d.value;
+    return d;
+  }
 }
