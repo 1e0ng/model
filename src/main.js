@@ -318,9 +318,9 @@ function gr() {
   data.push({name: 2019, value: 0});
   data.push({name: 2020, value: 0});
 
-  var margin = {top: 60, right: 60, bottom: 60, left: 60},
-    width = 300 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+  var margin = {top: 50, right: 50, bottom: 50, left: 50},
+    width = 370 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
   var x = d3.scaleBand()
     .rangeRound([0, width])
     .padding(0.1);
