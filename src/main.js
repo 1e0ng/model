@@ -10,7 +10,7 @@ function r() {
             d3.select('.' + key + ' .text').text(v);
           }
         }
-        t(); u(); b(); gr();
+        t(); u(); b(); gr(); gs();
       }
       break;
     }
@@ -321,20 +321,20 @@ function gr() {
   var margin = {top: 50, right: 50, bottom: 50, left: 50},
     width = 370 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
-  var x = d3.scaleBand()
+  var xx = d3.scaleBand()
     .rangeRound([0, width])
     .padding(0.1);
 
-  var y = d3.scaleLinear()
+  var yy = d3.scaleLinear()
     .range([height, 0]);
 
   var xAxis = d3.axisBottom()
-    .scale(x)
+    .scale(xx)
     .tickSize(0)
     .tickPadding(10);
 
   var yAxis = d3.axisLeft()
-    .scale(y);
+    .scale(yy);
 
   var svg = d3.select(".cashflow").append('svg')
     .attr("width", width + margin.left + margin.right)
@@ -342,17 +342,17 @@ function gr() {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  y.domain(d3.extent(data.concat({value:0}), function(d) { return d.value; })).nice();
-  x.domain(data.map(function(d) { return d.name; }));
+  yy.domain(d3.extent(data.concat({value:0}), function(d) { return d.value; })).nice();
+  xx.domain(data.map(function(d) { return d.name; }));
 
   svg.selectAll(".bar")
     .data(data)
     .enter().append("rect")
     .attr("class", function(d) { return "bar bar--" + (d.value < 0 ? "negative" : "positive"); })
-    .attr("x", function(d) { return x(d.name); })
-    .attr("y", function(d) { return y(Math.max(0, d.value)); })
-    .attr("width", function(d) { return x.bandwidth(); })
-    .attr("height", function(d) { return Math.abs(y(d.value) - y(0));});
+    .attr("x", function(d) { return xx(d.name); })
+    .attr("y", function(d) { return yy(Math.max(0, d.value)); })
+    .attr("width", function(d) { return xx.bandwidth(); })
+    .attr("height", function(d) { return Math.abs(yy(d.value) - yy(0));});
 
   svg.append("g")
     .attr("class", "axis")
@@ -360,8 +360,8 @@ function gr() {
     .data(data)
     .enter().append("text")
     .attr("class", "label")
-    .attr("x", function(d) { return x(d.name); })
-    .attr("y", function(d) { return y(d.value) - 7 * (d.value >= 0 ? 1 : -1); })
+    .attr("x", function(d) { return xx(d.name); })
+    .attr("y", function(d) { return yy(d.value) - 7 * (d.value >= 0 ? 1 : -1); })
     .attr("dy", ".35em")
     .text(function(d) { return d.value; });
 
@@ -373,7 +373,80 @@ function gr() {
 
   svg.append("g")
     .attr("class", "x axis")
-    .attr("transform", "translate(0," + y(0) + ")")
+    .attr("transform", "translate(0," + yy(0) + ")")
+    .call(xAxis);
+
+  function type(d) {
+    d.value = +d.value;
+    return d;
+  }
+}
+
+function gs() {
+  d3.select('.netincome>svg').remove();
+  var data = [];
+
+  var i;
+  for (i = 1; i <= 5; ++i) {
+    data.push({name: 2015 + i, value: x(i, "after-tax-profit")});
+  }
+
+  var margin = {top: 50, right: 50, bottom: 50, left: 50},
+    width = 370 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
+  var xx = d3.scaleBand()
+    .rangeRound([0, width])
+    .padding(0.1);
+
+  var yy = d3.scaleLinear()
+    .range([height, 0]);
+
+  var xAxis = d3.axisBottom()
+    .scale(xx)
+    .tickSize(0)
+    .tickPadding(10);
+
+  var yAxis = d3.axisLeft()
+    .scale(yy);
+
+  var svg = d3.select(".netincome").append('svg')
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  yy.domain(d3.extent(data.concat({value:0}), function(d) { return d.value; })).nice();
+  xx.domain(data.map(function(d) { return d.name; }));
+
+  svg.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+    .attr("class", function(d) { return "bar bar--" + (d.value < 0 ? "negative" : "positive"); })
+    .attr("x", function(d) { return xx(d.name); })
+    .attr("y", function(d) { return yy(Math.max(0, d.value)); })
+    .attr("width", function(d) { return xx.bandwidth(); })
+    .attr("height", function(d) { return Math.abs(yy(d.value) - yy(0));});
+
+  svg.append("g")
+    .attr("class", "axis")
+    .selectAll(".label")
+    .data(data)
+    .enter().append("text")
+    .attr("class", "label")
+    .attr("x", function(d) { return xx(d.name); })
+    .attr("y", function(d) { return yy(d.value) - 7 * (d.value >= 0 ? 1 : -1); })
+    .attr("dy", ".35em")
+    .text(function(d) { return d.value; });
+
+
+  svg.append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(0,0)")
+    .call(yAxis);
+
+  svg.append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + yy(0) + ")")
     .call(xAxis);
 
   function type(d) {
