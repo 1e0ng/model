@@ -306,62 +306,74 @@ g('other-cost-second-year', 5, 0, 100000, 0, 1000);
 r();
 
 
-//----------------------------
-//
-var margin = {top: 20, right: 30, bottom: 40, left: 30},
-    width = 860 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+/*------------------------------------------------------------------------*/
+
+
+var margin = {top: 40, right: 20, bottom: 20, left: 30},
+    width = 300 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 var data = [
-  {name:'A', value:-15},
-  {name:'B', value:-20},
-  {name:'C', value:-22},
-  {name:'D', value:-18},
-  {name:'E', value:2},
-  {name:'F', value:6},
-  {name:'G', value:26},
-  {name:'H', value:18}
+  {name:'2016', value:-15},
+  {name:'2017', value:-20},
+  {name:'2018', value:-22},
+  {name:'2019', value:8},
+  {name:'2020', value:20},
 ];
 
-var x = d3.scaleLinear()
-    .range([0, width]);
+var x = d3.scaleBand()
+  .rangeRound([0, width])
+  .padding(0.1);
 
-var y = d3.scaleBand().rangeRound([0, height]).padding(0.1);
+var y = d3.scaleLinear()
+    .range([height, 0]);
 
 var xAxis = d3.axisBottom()
-    .scale(x);
+    .scale(x)
+    .tickSize(0)
+    .tickPadding(10);
 
 var yAxis = d3.axisLeft()
-    .scale(y)
-    .tickSize(0)
-    .tickPadding(6);
+    .scale(y);
 
 var svg = d3.select(".cashflow").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
   .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-x.domain(d3.extent(data, function(d) { return d.value; })).nice();
-y.domain(data.map(function(d) { return d.name; }));
+y.domain(d3.extent(data, function(d) { return d.value; })).nice();
+x.domain(data.map(function(d) { return d.name; }));
 
-svg.selectAll(".cashflow .bar")
+svg.selectAll(".bar")
   .data(data)
   .enter().append("rect")
   .attr("class", function(d) { return "bar bar--" + (d.value < 0 ? "negative" : "positive"); })
-  .attr("x", function(d) { return x(Math.min(0, d.value)); })
-  .attr("y", function(d) { return y(d.name); })
-  .attr("width", function(d) { return Math.abs(x(d.value) - x(0)); })
-  .attr("height", y.bandwidth());
+  .attr("x", function(d) { return x(d.name); })
+  .attr("y", function(d) { return y(Math.max(0, d.value)); })
+  .attr("width", function(d) { return x.bandwidth(); })
+  .attr("height", function(d) { return Math.abs(y(d.value) - y(0));});
 
 svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0," + height + ")")
-  .call(xAxis);
+  .attr("class", "axis")
+  .selectAll(".label")
+  .data(data)
+  .enter().append("text")
+  .attr("class", "label")
+  .attr("x", function(d) { return x(d.name) + 7; })
+  .attr("y", function(d) { return y(d.value + Math.sign(d.value)); })
+  .attr("dy", ".35em")
+  .text(function(d) { return d.value; });
+
 
 svg.append("g")
   .attr("class", "y axis")
-  .attr("transform", "translate(" + x(0) + ",0)")
+  .attr("transform", "translate(0,0)")
   .call(yAxis);
+
+svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + y(0) + ")")
+  .call(xAxis);
 
 function type(d) {
   d.value = +d.value;
